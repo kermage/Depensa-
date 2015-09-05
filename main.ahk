@@ -60,6 +60,7 @@ Menu, Tray, NoStandard
 GoSub, GUI
 TrayTip, %TITLE%, Manually scan removable drives here!
 DriveGet, oldList, List, REMOVABLE
+Gosub, REFRESH_LIST
 SetTimer, CHECK_DRIVES
 
 #include func.ahk

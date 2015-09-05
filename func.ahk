@@ -1,9 +1,9 @@
 CHECK_DRIVES:
   SetTimer, CHECK_DRIVES, Off
-  Gosub, REFRESH_LIST
   DriveGet, newList, List, REMOVABLE
   If (newList AND newList != oldList)
   {
+    Gosub, REFRESH_LIST
     Loop, Parse, oldList
       StringReplace, newList, newList, %A_LoopField%
     If newList
