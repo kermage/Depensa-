@@ -37,7 +37,7 @@ SCAN_DRIVE( _Drive, which ) {
   FileScanned =
   FilesDetected =
   ScanProgress =
-  FormatTime, scanTime, %A_Now%, MMddyyhhmmss
+  FormatTime, scanTime, %A_Now%, MMddyyhhmm
   recoveredFolder = RECOVERED - %scanTime%
   scanLogFile = %TITLE% - Scan.log
   GuiControl, Disable, PROCESS_DRIVE
@@ -64,7 +64,7 @@ SCAN_DRIVE( _Drive, which ) {
     if A_LoopFileDir = %blankSpace%
     {
       infectCount++
-      recoveredFiles = %recoveredFiles%%A_LoopFileDir%\%recoveredFolder%`n
+      recoveredFiles = %recoveredFiles%`t%A_LoopFileDir%\%recoveredFolder%`n
       FileMoveDir, %A_LoopFileFullPath%, %A_LoopFileDir%\%recoveredFolder%, R
     }
     if A_LoopFileName = autorun.inf
@@ -73,7 +73,7 @@ SCAN_DRIVE( _Drive, which ) {
       if fileContent contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         autorunCount++
-        autorunFiles = %autorunFiles%%A_LoopFileFullPath%`n
+        autorunFiles = %autorunFiles%`t%A_LoopFileFullPath%`n
         FileDelete, %A_LoopFileFullPath%
       }
     }
@@ -83,20 +83,20 @@ SCAN_DRIVE( _Drive, which ) {
       if OutTarget contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         shortcutCount++
-        shortcutFiles = %shortcutFiles%%A_LoopFileFullPath%`n
+        shortcutFiles = %shortcutFiles%`t%A_LoopFileFullPath%`n
         FileDelete, %A_LoopFileFullPath%
       }
       if OutArgs contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         shortcutCount++
-        shortcutFiles = %shortcutFiles%%A_LoopFileFullPath%`n
+        shortcutFiles = %shortcutFiles%`t%A_LoopFileFullPath%`n
         FileDelete, %A_LoopFileFullPath%
       }
     }
     IfExist, %A_LoopFileDir%\%A_LoopFileName%.lnk
     {
       shortcutCount++
-      shortcutFiles = %shortcutFiles%%A_LoopFileFullPath%`n
+      shortcutFiles = %shortcutFiles%`t%A_LoopFileFullPath%`n
       FileDelete, %A_LoopFileDir%\%A_LoopFileName%.lnk
     }
     detectCount := infectCount + autorunCount + shortcutCount
@@ -106,29 +106,29 @@ SCAN_DRIVE( _Drive, which ) {
       GuiControl, 2:, FilesDetected, %detectCount% / %curCount%
     Sleep, 25
   }
-  FileAppend, %A_Space%%A_Space%%TITLE% - Scan`n, %driveLetter%\%scanLogFile%
-  FileAppend, MMddyyhhmmss %scanTime%`n`n, %driveLetter%\%scanLogFile%
-  FileAppend, Scanned:`t%curCount%`n, %driveLetter%\%scanLogFile%
+  FileAppend, ===================================`n, %_Drive%:\%scanLogFile%
+  FileAppend, Time`t`t:`t%scanTime%`n, %_Drive%:\%scanLogFile%
+  FileAppend, Scanned`t`t:`t%curCount%`n`n, %_Drive%:\%scanLogFile%
   if autorunCount
   {
-    FileAppend, Autoruns:`t%autorunCount%`n, %driveLetter%\%scanLogFile%
-    FileAppend, %autorunFiles%`n, %driveLetter%\%scanLogFile%
+    FileAppend, Autoruns`t`t:`t%autorunCount%`n, %_Drive%:\%scanLogFile%
+    FileAppend, `t%autorunFiles%`n, %_Drive%:\%scanLogFile%
   }
   else
-    FileAppend, Autoruns:`tNone`n, %driveLetter%\%scanLogFile%
+    FileAppend, Autoruns`t`t:`tNone`n`n, %_Drive%:\%scanLogFile%
   if shortcutCount
   {
-    FileAppend, Shortcuts:`t%shortcutCount%`n, %driveLetter%\%scanLogFile%
-    FileAppend, %autorunFiles%`n, %driveLetter%\%scanLogFile%
+    FileAppend, Shortcuts`t`t:`t%shortcutCount%`n, %_Drive%:\%scanLogFile%
+    FileAppend, `t%shortcutFiles%`n, %_Drive%:\%scanLogFile%
   }
   else
-    FileAppend, Shortcuts:`tNone`n, %driveLetter%\%scanLogFile%
+    FileAppend, Shortcuts`t`t:`tNone`n`n, %_Drive%:\%scanLogFile%
   if infectCount
   {
-    FileAppend, Recovered:`t%infectCount%`n, %driveLetter%\%scanLogFile%
-    FileAppend, %recoveredFiles%`n, %driveLetter%\%scanLogFile%
+    FileAppend, Recovered`t:`t%infectCount%`n, %_Drive%:\%scanLogFile%
+    FileAppend, `t%recoveredFiles%`n, %_Drive%:\%scanLogFile%
   }
-  FileAppend, `n, %driveLetter%\%scanLogFile%
+  FileAppend, ===================================`n, %_Drive%:\%scanLogFile%
   Message =
   ( LTrim
     `n%A_Space% %A_Space% SCAN COMPLETE!
