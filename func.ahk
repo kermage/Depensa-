@@ -1,12 +1,12 @@
 CHECK_DRIVES:
   SetTimer, CHECK_DRIVES, Off
   DriveGet, newList, List, REMOVABLE
-  If (newList AND newList != oldList)
+  if (newList AND newList != oldList)
   {
     Gosub, REFRESH_LIST
     Loop, Parse, oldList
       StringReplace, newList, newList, %A_LoopField%
-    If newList
+    if newList
       SHOW_DRIVE(newList)
   }
   DriveGet, oldList, List, REMOVABLE
@@ -15,19 +15,18 @@ return
 
 SHOW_DRIVE( _Drive ) {
   global
-  driveLetter = %_Drive%:
   DriveGet, driveLabel, Label, %_Drive%:\
   DriveGet, driveSpace, Capacity, %_Drive%:\
   GoSub, DRIVE_GUI
-  SCAN_DRIVE(driveLetter, 1)
-  IfExist, %driveLetter%\
-    Run, %driveLetter%\
+  SCAN_DRIVE(_Drive, 1)
+  IfExist, %_Drive%:\
+    Run, %_Drive%:\
   Sleep, 1000
   Gui, 2: Destroy
   Gui -Disabled
 }
 
-SCAN_DRIVE( _Drive, which ){  
+SCAN_DRIVE( _Drive, which ) {  
   global TITLE
   infectCount = 0
   autorunCount = 0
@@ -42,52 +41,52 @@ SCAN_DRIVE( _Drive, which ){
   recoveredFolder = RECOVERED - %scanTime%
   scanLogFile = %TITLE% - Scan.log
   GuiControl, Disable, PROCESS_DRIVE
-  Loop, %_Drive%\*.*, 1, 1
+  Loop, %_Drive%:\*.*, 1, 1
     totCount++
-  Loop, %_Drive%\*.*, 1, 1
+  Loop, %_Drive%:\*.*, 1, 1
   {
     curCount++
     posProgress := Round((100*curCount)/totCount)
-    If which = 0
+    if which = 0
     {
       GuiControl, , ScanProgress, %posProgress%
       GuiControl, , FileScanned, %A_LoopFileName%
     }
-    Else If which = 1
+    else if which = 1
     {
       GuiControl, 2:, ScanProgress2, %posProgress%
       GuiControl, 2:, FileScanned2, %A_LoopFileName%
     }
     FileGetAttrib, fileAttribute, %A_LoopFileFullPath%
-    If fileAttribute contains R,S,H
+    if fileAttribute contains R,S,H
       FileSetAttrib, -%fileAttribute%, %A_LoopFileFullPath%
     StringTrimRight, blankSpace, A_LoopFileFullPath, 2
-    If A_LoopFileDir = %blankSpace%
+    if A_LoopFileDir = %blankSpace%
     {
       infectCount++
       recoveredFiles = %recoveredFiles%%A_LoopFileDir%\%recoveredFolder%`n
       FileMoveDir, %A_LoopFileFullPath%, %A_LoopFileDir%\%recoveredFolder%, R
     }
-    If A_LoopFileName = autorun.inf
+    if A_LoopFileName = autorun.inf
     {
       FileRead, fileContent, %A_LoopFileFullPath%
-      If fileContent contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
+      if fileContent contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         autorunCount++
         autorunFiles = %autorunFiles%%A_LoopFileFullPath%`n
         FileDelete, %A_LoopFileFullPath%
       }
     }
-    If A_LoopFileExt = lnk
+    if A_LoopFileExt = lnk
     {
       FileGetShortcut, %A_LoopFileFullPath%, outTarget, outDir, outArgs
-      If OutTarget contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
+      if OutTarget contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         shortcutCount++
         shortcutFiles = %shortcutFiles%%A_LoopFileFullPath%`n
         FileDelete, %A_LoopFileFullPath%
       }
-      If OutArgs contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
+      if OutArgs contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         shortcutCount++
         shortcutFiles = %shortcutFiles%%A_LoopFileFullPath%`n
@@ -101,30 +100,30 @@ SCAN_DRIVE( _Drive, which ){
       FileDelete, %A_LoopFileDir%\%A_LoopFileName%.lnk
     }
     detectCount := infectCount + autorunCount + shortcutCount
-    If which = 0
+    if which = 0
       GuiControl, , FilesDetected, %detectCount% / %curCount%
-    Else If which = 1
+    else if which = 1
       GuiControl, 2:, FilesDetected, %detectCount% / %curCount%
     Sleep, 25
   }
   FileAppend, %A_Space%%A_Space%%TITLE% - Scan`n, %driveLetter%\%scanLogFile%
   FileAppend, MMddyyhhmmss %scanTime%`n`n, %driveLetter%\%scanLogFile%
   FileAppend, Scanned:`t%curCount%`n, %driveLetter%\%scanLogFile%
-  If autorunCount
+  if autorunCount
   {
     FileAppend, Autoruns:`t%autorunCount%`n, %driveLetter%\%scanLogFile%
     FileAppend, %autorunFiles%`n, %driveLetter%\%scanLogFile%
   }
-  Else
+  else
     FileAppend, Autoruns:`tNone`n, %driveLetter%\%scanLogFile%
-  If shortcutCount
+  if shortcutCount
   {
     FileAppend, Shortcuts:`t%shortcutCount%`n, %driveLetter%\%scanLogFile%
     FileAppend, %autorunFiles%`n, %driveLetter%\%scanLogFile%
   }
-  Else
+  else
     FileAppend, Shortcuts:`tNone`n, %driveLetter%\%scanLogFile%
-  If infectCount
+  if infectCount
   {
     FileAppend, Recovered:`t%infectCount%`n, %driveLetter%\%scanLogFile%
     FileAppend, %recoveredFiles%`n, %driveLetter%\%scanLogFile%
@@ -139,13 +138,13 @@ SCAN_DRIVE( _Drive, which ){
     Autoruns`t. . .%A_Space% %A_Space%%autorunCount%
     Shortcuts`t. . .%A_Space% %A_Space%%shortcutCount%
   )
-  If which = 0
+  if which = 0
     GuiControl, , FileScanned, FINISHED!
-  Else If which = 1
+  else if which = 1
     GuiControl, 2:, FileScanned2, FINISHED!
   Gui +OwnDialogs
   MsgBox, 262208, %TITLE%, %Message%
-  If which = 0
+  if which = 0
   {
     GuiControl, , ScanProgress, 0
     GuiControl, , FileScanned,
@@ -159,10 +158,9 @@ REFRESH_LIST:
   DriveGet, DL, List, REMOVABLE
   Loop, Parse, DL
   {
-    ThisLetter = %A_LoopField%:
     DriveGet, ThisLabel, Label, %A_LoopField%:\
     DriveGet, ThisSize, Capacity, %A_LoopField%:\
-    LV_Add("", ThisLetter, ThisLabel, ThisSize)
+    LV_Add("", A_LoopField, ThisLabel, ThisSize)
   }
   LV_Modify(StrLen(DL), "+Select")
 return
@@ -175,7 +173,7 @@ PROCESS_DRIVE:
     Gui +OwnDialogs
     MsgBox, 262192, %TITLE%, No drive selected
   }
-  Else
+  else
   {
     LV_GetText(driveSelected, rowSelected, 1)
     SCAN_DRIVE(driveSelected, 0)
@@ -186,7 +184,7 @@ return
 
 INSTALL:
   Gui +OwnDialogs
-  If not A_IsAdmin
+  if not A_IsAdmin
   {
     MsgBox, 262192, %TITLE%, Admin mode required
     return
@@ -194,7 +192,7 @@ INSTALL:
   MsgBox, 262180, %TITLE%, Install %TITLE% in Silent Mode?
   IfMsgBox Yes
     RegWrite, REG_SZ, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Run, %TITLE%, "%A_ScriptFullPath%" /S
-  Else
+  else
     RegWrite, REG_SZ, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Run, %TITLE%, "%A_ScriptFullPath%"
   Loop, 100
     Progress, %A_Index%, , Installing..., %TITLE%

@@ -53,13 +53,13 @@ return
 ShowHide:
   Gui, 3: Destroy
   Gui -Disabled
-  If Visible = y
+  if Visible = y
   {
     Gui, Cancel
     Menu, Tray, Rename, %MenuItemHide%, %MenuItemShow%
     Visible = n
   }
-  Else
+  else
   {
     Gui, Show, Center, %TITLE%
     Menu, Tray, Rename, %MenuItemShow%, %MenuItemHide%

@@ -25,9 +25,9 @@ Loop, %0%
 	param := %A_Index%
 	params .= A_Space . param
 }
-If param contains s,S
+if param contains s,S
 	Menu, Tray, NoIcon
-If param contains u,U
+if param contains u,U
 {
 	MsgBox, 262180, %TITLE%, Continue to uninstall %TITLE%?
 	IfMsgBox Yes
