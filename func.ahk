@@ -174,16 +174,22 @@ return
 PROCESS_DRIVE:
   SetTimer, CHECK_DRIVES, Off
   rowSelected := LV_GetNext()
-  If(rowSelected = 0)
+  if rowSelected = 0
   {
-    Gui +OwnDialogs
-    MsgBox, 262192, %TITLE%, No drive selected
+    if A_GuiEvent != ColClick
+    {
+      Gui +OwnDialogs
+      MsgBox, 262192, %TITLE%, No drive selected
+    }
   }
   else
   {
     LV_GetText(driveSelected, rowSelected, 1)
-    SCAN_DRIVE(driveSelected, 0)
-    Sleep, 500
+    if A_GuiEvent != ColClick
+    {
+      SCAN_DRIVE(driveSelected, 0)
+      Sleep, 500
+    }
   }
   SetTimer, CHECK_DRIVES, On
 return
