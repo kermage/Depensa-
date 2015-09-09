@@ -42,9 +42,15 @@ SCAN_DRIVE( _Drive, which ) {
   scanLogFile = %TITLE% - Scan.log
   GuiControl, Disable, PROCESS_DRIVE
   Loop, %_Drive%:\*.*, 1, 1
+  {
+    if A_LoopFileFullPath contains System Volume Information,Desktop.ini,Thumbs.db,%scanLogFile%,RECOVERED
+      continue
     totCount++
+  }
   Loop, %_Drive%:\*.*, 1, 1
   {
+    if A_LoopFileFullPath contains System Volume Information,Desktop.ini,Thumbs.db,%scanLogFile%,RECOVERED
+      continue
     curCount++
     posProgress := Round((100*curCount)/totCount)
     if which = 0
