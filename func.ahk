@@ -39,17 +39,18 @@ SCAN_DRIVE( _Drive, which ) {
   ScanProgress =
   FormatTime, scanTime, %A_Now%, MMddyyhhmm
   recoveredFolder = RECOVERED - %scanTime%
+  infectedFolder = INFECTED - %scanTime%
   scanLogFile = %TITLE% - Scan.log
   GuiControl, Disable, PROCESS_DRIVE
   Loop, %_Drive%:\*.*, 1, 1
   {
-    if A_LoopFileFullPath contains System Volume Information,Desktop.ini,Thumbs.db,%scanLogFile%,RECOVERED
+    if A_LoopFileFullPath contains System Volume Information,Desktop.ini,Thumbs.db,%scanLogFile%,RECOVERED,INFECTED
       continue
     totCount++
   }
   Loop, %_Drive%:\*.*, 1, 1
   {
-    if A_LoopFileFullPath contains System Volume Information,Desktop.ini,Thumbs.db,%scanLogFile%,RECOVERED
+    if A_LoopFileFullPath contains System Volume Information,Desktop.ini,Thumbs.db,%scanLogFile%,RECOVERED,INFECTED
       continue
     curCount++
     posProgress := Round((100*curCount)/totCount)
@@ -80,7 +81,9 @@ SCAN_DRIVE( _Drive, which ) {
       {
         autorunCount++
         autorunFiles = %autorunFiles%`t%A_LoopFileFullPath%`n
-        FileDelete, %A_LoopFileFullPath%
+        IfNotExist, %infectedFolder%
+          FileCreateDir, %A_LoopFileDir%\%infectedFolder%
+        FileMove, %A_LoopFileFullPath%, %A_LoopFileDir%\%infectedFolder%
       }
     }
     if A_LoopFileExt = lnk
@@ -90,20 +93,26 @@ SCAN_DRIVE( _Drive, which ) {
       {
         shortcutCount++
         shortcutFiles = %shortcutFiles%`t%A_LoopFileFullPath%`n
-        FileDelete, %A_LoopFileFullPath%
+        IfNotExist, %infectedFolder%
+          FileCreateDir, %A_LoopFileDir%\%infectedFolder%
+        FileMove, %A_LoopFileFullPath%, %A_LoopFileDir%\%infectedFolder%
       }
       if OutArgs contains VBScript,WScript,autorun,inf,ini,lnk,vbs,bat
       {
         shortcutCount++
         shortcutFiles = %shortcutFiles%`t%A_LoopFileFullPath%`n
-        FileDelete, %A_LoopFileFullPath%
+        IfNotExist, %infectedFolder%
+          FileCreateDir, %A_LoopFileDir%\%infectedFolder%
+        FileMove, %A_LoopFileFullPath%, %A_LoopFileDir%\%infectedFolder%
       }
     }
     IfExist, %A_LoopFileDir%\%A_LoopFileName%.lnk
     {
       shortcutCount++
       shortcutFiles = %shortcutFiles%`t%A_LoopFileFullPath%`n
-      FileDelete, %A_LoopFileDir%\%A_LoopFileName%.lnk
+      IfNotExist, %infectedFolder%
+        FileCreateDir, %A_LoopFileDir%\%infectedFolder%
+      FileMove, %A_LoopFileDir%\%A_LoopFileName%.lnk, %A_LoopFileDir%\%infectedFolder%
     }
     detectCount := infectCount + autorunCount + shortcutCount
     if which = 0
