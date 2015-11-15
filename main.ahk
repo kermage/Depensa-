@@ -1,4 +1,17 @@
 ; ##################################################
+; ################### DIRECTIVES ###################
+; ##################################################
+;@Ahk2Exe-SetName Depensa!
+;@Ahk2Exe-SetDescription Fix shorcut virus
+;@Ahk2Exe-SetVersion 1.0.0-alpha
+;@Ahk2Exe-SetCopyright genealyson.torcende@gmail.com
+;@Ahk2Exe-SetTrademarks PrivaTech -- GAFT
+;@Ahk2Exe-SetOrigFilename Depensa!.ahk
+;@Ahk2Exe-SetCompanyName PrivaTech -- GAFT
+;@Ahk2Exe-SetMainIcon PrivaTech.ico
+
+
+; ##################################################
 ; ################### PARAMETERS ###################
 ; ##################################################
 #NoEnv
