@@ -27,7 +27,7 @@ SHOW_DRIVE( _Drive ) {
   Gui -Disabled
 }
 
-SCAN_DRIVE( _Drive, which ) {  
+SCAN_DRIVE( _Drive, which ) {
   global TITLE
   infectCount = 0
   autorunCount = 0
@@ -120,7 +120,6 @@ SCAN_DRIVE( _Drive, which ) {
       GuiControl, , FilesDetected, %detectCount% / %curCount%
     else if which = 1
       GuiControl, 2:, FilesDetected, %detectCount% / %curCount%
-    Sleep, 25
   }
   FileAppend, ===================================`n, %_Drive%:\%scanLogFile%
   FileAppend, Time`t`t:`t%scanTime%`n, %_Drive%:\%scanLogFile%
