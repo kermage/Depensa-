@@ -27,7 +27,7 @@ DRIVE_GUI:
   Gui, 2: Add, Text, xp y+10, Scanning removable drive . . .
   Gui, 2: Add, Text, x10 y+10, Letter
   Gui, 2: Add, Text, x75 yp, :
-  Gui, 2: Add, Text, x+10 cBlue, %driveLetter%\
+  Gui, 2: Add, Text, x+10 cBlue, %driveLetter%
   Gui, 2: Add, Text, x10, Label
   Gui, 2: Add, Text, x75 yp, :
   Gui, 2: Add, Text, x+10 cBlue, %driveLabel%

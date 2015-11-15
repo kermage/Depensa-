@@ -15,6 +15,7 @@ return
 
 SHOW_DRIVE( _Drive ) {
   global
+  driveLetter = %_Drive%:\
   DriveGet, driveLabel, Label, %_Drive%:\
   DriveGet, driveSpace, Capacity, %_Drive%:\
   GoSub, DRIVE_GUI
