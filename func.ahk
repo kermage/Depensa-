@@ -158,7 +158,7 @@ SCAN_DRIVE( _Drive, which ) {
   else if which = 1
     GuiControl, 2:, FileScanned2, FINISHED!
   Gui +OwnDialogs
-  MsgBox, 262208, %TITLE% v%VER%, %Message%
+  MsgBox, 262208, %TITLE% v%VERSION%, %Message%
   if which = 0
   {
     GuiControl, , ScanProgress, 0
@@ -188,7 +188,7 @@ PROCESS_DRIVE:
     if A_GuiEvent != ColClick
     {
       Gui +OwnDialogs
-      MsgBox, 262192, %TITLE% v%VER%, No drive selected
+      MsgBox, 262192, %TITLE% v%VERSION%, No drive selected
     }
   }
   else
@@ -207,10 +207,10 @@ INSTALL:
   Gui +OwnDialogs
   if not A_IsAdmin
   {
-    MsgBox, 262192, %TITLE% v%VER%, Admin mode required
+    MsgBox, 262192, %TITLE% v%VERSION%, Admin mode required
     return
   }
-  MsgBox, 262180, %TITLE% v%VER%, Install %TITLE% in Silent Mode?
+  MsgBox, 262180, %TITLE% v%VERSION%, Install %TITLE% in Silent Mode?
   IfMsgBox Yes
     RegWrite, REG_SZ, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Run, %TITLE%, "%A_ScriptFullPath%" /S
   else
@@ -220,6 +220,6 @@ INSTALL:
   RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies, NoDriveTypeAutoRun, 0x05
   FileCreateShortcut, "%A_ScriptFullPath%", %A_ScriptDir%\Uninstall.lnk, "%A_ScriptDir%", -U, , %A_ScriptFullPath%
   Sleep, 500
-  MsgBox, 262208, %TITLE% v%VER%, Installation Complete!`n`nPlease restart %TITLE%
+  MsgBox, 262208, %TITLE% v%VERSION%, Installation Complete!`n`nPlease restart %TITLE%
   ExitApp
 return

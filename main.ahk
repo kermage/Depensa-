@@ -12,36 +12,40 @@
 
 
 ; ##################################################
-; ################### PARAMETERS ###################
+; ##################### CONFIG #####################
 ; ##################################################
+#MaxThreads 20
 #NoEnv
-#SingleInstance force
 #Persistent
-#MaxThReads 20
+#SingleInstance force
 
+Process, Priority,, High 
 SendMode Input
-SetWorkingDir %A_ScriptDir%
-Process, priority, , High 
 SetBatchLines, -1
+SetKeyDelay, -1
 SetTitleMatchMode, 2
 SetTitleMatchMode, Slow
-FileGetVersion, VER, %A_ScriptFullPath%
-TITLE = Depensa!
+SetTitleMatchMode, RegEx
 
 
 ; ##################################################
 ; ################### INITIALIZE ###################
 ; ##################################################
-Loop, %0%
-{
-	param := %A_Index%
-	params .= A_Space . param
-}
-if param contains s,S
+SetWorkingDir %A_ScriptDir%
+;@Ahk2Exe-IgnoreBegin
+VERSION := "1.0.0.0"
+;@Ahk2Exe-IgnoreEnd
+/*@Ahk2Exe-Keep
+FileGetVersion, VERSION, %A_ScriptFullPath%
+*/
+TITLE = Depensa!
+
+param := %0%
+if (param = "/S")
 	Menu, Tray, NoIcon
-if param contains u,U
+if (param = "-U")
 {
-	MsgBox, 262180, %TITLE% v%VER%, Continue to uninstall %TITLE%?
+	MsgBox, 262180, %TITLE% v%VERSION%, Continue to uninstall %TITLE%?
 	IfMsgBox Yes
 	{
 		RegDelete, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Run, %TITLE%
@@ -49,7 +53,7 @@ if param contains u,U
 			Progress, %A_Index%, , Uninstalling..., %TITLE%
 		Sleep, 500
 		Run, %A_ScriptDir%
-		MsgBox, 262208, %TITLE% v%VER%, Thank you for using %TITLE%`n`nPlease remove remaining files manually.
+		MsgBox, 262208, %TITLE% v%VERSION%, Thank you for using %TITLE%`n`nPlease remove remaining files manually.
 	}
 	ExitApp
 }
@@ -61,8 +65,13 @@ if param contains u,U
 Visible = n
 MenuItemHide = Hide
 MenuItemShow = Show
+;@Ahk2Exe-IgnoreBegin
+Menu, Tray, Icon, PrivaTech.ico
+;@Ahk2Exe-IgnoreEnd
+/*@Ahk2Exe-Keep
 Menu, Tray, Icon, %A_ScriptFullPath%
-Menu, Tray, Tip, %TITLE% v%VER%
+*/
+Menu, Tray, Tip, %TITLE% v%VERSION%
 Menu, Tray, Add, %MenuItemShow%, ShowHide
 Menu, Tray, Add
 Menu, Tray, Add, About
@@ -70,10 +79,17 @@ Menu, Tray, Add, &Exit, Exit
 Menu, Tray, Default, %MenuItemShow%
 Menu, Tray, NoStandard
 GoSub, GUI
-TrayTip, %TITLE% v%VER%, Manually scan removable drives here!
+TrayTip, %TITLE% v%VERSION%, Manually scan removable drives here!
 DriveGet, oldList, List, REMOVABLE
 Gosub, REFRESH_LIST
 SetTimer, CHECK_DRIVES
+
+return ; =========== END OF AUTO EXECUTE ===========
+
+
+; ##################################################
+; #################### INCLUDES ####################
+; ##################################################
 
 #include func.ahk
 #include gui.ahk

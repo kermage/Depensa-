@@ -47,7 +47,7 @@ DRIVE_GUI:
   WinGetPos, , , GuiWidth
   GuiControlGet, GuiInfo, 2:Pos, Text
   GuiControl, 2: Move, Text, % "x" GuiWidth/2 - GuiInfoW/2
-  Gui, 2: Show, Center, %TITLE% v%VER%
+  Gui, 2: Show, Center, %TITLE% v%VERSION%
 return
 
 ShowHide:
@@ -61,7 +61,7 @@ ShowHide:
   }
   else
   {
-    Gui, Show, Center, %TITLE% v%VER%
+    Gui, Show, Center, %TITLE% v%VERSION%
     Menu, Tray, Rename, %MenuItemShow%, %MenuItemHide%
     Visible = y
   }
@@ -70,9 +70,14 @@ return
 About:
   Gui +Disabled
   Gui, 3: -MinimizeBox -MaximizeBox
+  ;@Ahk2Exe-IgnoreBegin
+  Gui, 3: Add, Picture, x10 y10 w32 h32 gINSTALL, PrivaTech.ico
+  ;@Ahk2Exe-IgnoreEnd
+  /*@Ahk2Exe-Keep
   Gui, 3: Add, Picture, x10 y10 w32 h32 gINSTALL, %A_ScriptName%
+  */
   Gui, 3: Font, s12 Bold, Verdana
-  Gui, 3: Add, Text, x57 y10, %TITLE% v%VER%
+  Gui, 3: Add, Text, x57 y10, %TITLE% v%VERSION%
   Gui, 3: Font, s8
   Gui, 3: Add, Text, x55 y+5, By:%A_Space%
   Gui, 3: Add, Text, x+0 cBlue gLink, PrivaTech -- GAFT
