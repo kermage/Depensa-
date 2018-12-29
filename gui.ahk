@@ -77,7 +77,7 @@ About:
   Gui, 3: Add, Picture, x10 y10 w32 h32 gINSTALL, %A_ScriptName%
   */
   Gui, 3: Font, s12 Bold, Verdana
-  Gui, 3: Add, Text, x57 y10 gLink, %TITLE% v%VERSION%
+  Gui, 3: Add, Text, x55 y10 gLink, %TITLE% v%VERSION%
   Gui, 3: Font, s8
   Gui, 3: Add, Text, x55 y+5, By:%A_Space%
   Gui, 3: Add, Text, x+0 cBlue gLink, PrivaTech -- GAFT
