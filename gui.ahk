@@ -91,7 +91,7 @@ return
 return
 
 Link:
-  Run, http://goo.gl/vo2Ajr
+  Run, https://github.com/kermage/Depensa-
 return
 
 GuiEscape:
