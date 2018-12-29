@@ -8,7 +8,6 @@
 ;@Ahk2Exe-SetTrademarks PrivaTech -- GAFT
 ;@Ahk2Exe-SetOrigFilename Depensa!.ahk
 ;@Ahk2Exe-SetCompanyName PrivaTech -- GAFT
-;@Ahk2Exe-SetMainIcon PrivaTech.ico
 
 
 ; ##################################################
@@ -66,7 +65,7 @@ Visible = n
 MenuItemHide = Hide
 MenuItemShow = Show
 ;@Ahk2Exe-IgnoreBegin
-Menu, Tray, Icon, PrivaTech.ico
+Menu, Tray, Icon, %TITLE%.ico
 ;@Ahk2Exe-IgnoreEnd
 /*@Ahk2Exe-Keep
 Menu, Tray, Icon, %A_ScriptFullPath%
