@@ -36,6 +36,7 @@ VERSION := "1.0.0"
 ;@Ahk2Exe-IgnoreEnd
 /*@Ahk2Exe-Keep
 FileGetVersion, VERSION, %A_ScriptFullPath%
+VERSION := Substr( VERSION, 1, -2 )
 */
 TITLE = Depensa!
 
