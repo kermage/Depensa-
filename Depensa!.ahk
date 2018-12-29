@@ -39,10 +39,11 @@ FileGetVersion, VERSION, %A_ScriptFullPath%
 */
 TITLE = Depensa!
 
-param := %0%
-if (param = "/S")
+argv := ParseArguments()
+
+if argv["S"]
 	Menu, Tray, NoIcon
-if (param = "-U")
+if argv["U"]
 {
 	MsgBox, 262180, %TITLE% v%VERSION%, Continue to uninstall %TITLE%?
 	IfMsgBox Yes
