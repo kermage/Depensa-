@@ -71,7 +71,7 @@ About:
   Gui +Disabled
   Gui, 3: -MinimizeBox -MaximizeBox
   ;@Ahk2Exe-IgnoreBegin
-  Gui, 3: Add, Picture, x10 y10 w32 h32 gINSTALL, PrivaTech.ico
+  Gui, 3: Add, Picture, x10 y10 w32 h32 gINSTALL, %TITLE%.ico
   ;@Ahk2Exe-IgnoreEnd
   /*@Ahk2Exe-Keep
   Gui, 3: Add, Picture, x10 y10 w32 h32 gINSTALL, %A_ScriptName%
