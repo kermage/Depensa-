@@ -3,7 +3,7 @@
 ; ##################################################
 ;@Ahk2Exe-SetName Depensa!
 ;@Ahk2Exe-SetDescription Fix shorcut virus
-;@Ahk2Exe-SetVersion 1.0.0-alpha
+;@Ahk2Exe-SetVersion 1.0.0
 ;@Ahk2Exe-SetCopyright genealyson.torcende@gmail.com
 ;@Ahk2Exe-SetTrademarks PrivaTech -- GAFT
 ;@Ahk2Exe-SetOrigFilename Depensa!.ahk
@@ -32,7 +32,7 @@ SetTitleMatchMode, RegEx
 ; ##################################################
 SetWorkingDir %A_ScriptDir%
 ;@Ahk2Exe-IgnoreBegin
-VERSION := "1.0.0.0"
+VERSION := "1.0.0"
 ;@Ahk2Exe-IgnoreEnd
 /*@Ahk2Exe-Keep
 FileGetVersion, VERSION, %A_ScriptFullPath%
